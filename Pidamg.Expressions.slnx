@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Pidamg.Expressions/Pidamg.Expressions.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Pidamg.Expressions.Tests/Pidamg.Expressions.Tests.csproj" />
+  </Folder>
+</Solution>
