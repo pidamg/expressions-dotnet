@@ -16,8 +16,9 @@ public interface IEvaluable
 
     /// <summary>
     /// Evaluate, then coerce the result to <typeparamref name="T"/> with the expression coercion rules
-    /// (truthiness for <c>bool</c>, numeric promotion, <c>ToString</c> for <c>string</c>, …). A default
-    /// interface method so every node gets it for free; see <see cref="ValueCoercion.Convert{T}"/>.
+    /// (strict parsing for boolean strings, numeric conversion, invariant formatting for <c>string</c>,
+    /// …). A default interface method so every node gets it for free; see
+    /// <see cref="ValueCoercion.Convert{T}"/>.
     /// </summary>
     T? Evaluate<T>(IEvaluationContext context) => ValueCoercion.Convert<T>(Evaluate(context));
 }

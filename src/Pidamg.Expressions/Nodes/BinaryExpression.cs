@@ -16,9 +16,7 @@ internal sealed record BinaryExpression(IEvaluable Left, string Operator, IEvalu
         return Operator switch
         {
             "+" => Add(l, r),
-            "-" => Arithmetic(l, r, static (a, b) => a - b, static (a, b) => a - b),
-            "*" => Arithmetic(l, r, static (a, b) => a * b, static (a, b) => a * b),
-            "/" => Arithmetic(l, r, static (a, b) => a / b, static (a, b) => a / b),
+            "-" or "*" or "/" => NumericOperations.ApplyBinary(l, r, Operator),
             "==" => ValueCoercion.AreEqual(l, r),
             "!=" => !ValueCoercion.AreEqual(l, r),
             // Ordering: a null/incompatible Compare → no value → false ("null is not orderable").
@@ -33,28 +31,8 @@ internal sealed record BinaryExpression(IEvaluable Left, string Operator, IEvalu
     // '+' is string concatenation if either side is a string (null renders as empty), else numeric.
     private static object? Add(object? l, object? r) => (l, r) switch
     {
-        (string sl, _) => sl + r?.ToString(),
-        (_, string sr) => l?.ToString() + sr,
-        _ => Arithmetic(l, r, static (a, b) => a + b, static (a, b) => a + b),
-    };
-
-    private static object Arithmetic(object? l, object? r,
-        Func<int, int, object> intOp, Func<double, double, object> doubleOp) =>
-        (ToNumber(l), ToNumber(r)) switch
-        {
-            (int il, int ir) => intOp(il, ir),
-            (double dl, double dr) => doubleOp(dl, dr),
-            (int il, double dr) => doubleOp(il, dr),
-            (double dl, int ir) => doubleOp(dl, ir),
-            _ => throw new EvaluationException(
-                $"Cannot apply arithmetic to '{l?.GetType().Name}' and '{r?.GetType().Name}'."),
-        };
-
-    private static object? ToNumber(object? v) => v switch
-    {
-        int i => i,
-        double d => d,
-        long lg => (int)lg,
-        _ => v,
+        (string sl, _) => sl + ValueCoercion.ToInvariantString(r),
+        (_, string sr) => ValueCoercion.ToInvariantString(l) + sr,
+        _ => NumericOperations.ApplyBinary(l, r, "+"),
     };
 }

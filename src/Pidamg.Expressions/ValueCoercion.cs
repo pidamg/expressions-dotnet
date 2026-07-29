@@ -18,33 +18,37 @@ public static class ValueCoercion
         long l => l != 0,
         double d => d != 0.0,
         float f => f != 0f,
+        decimal d => d != 0m,
         string s => s.Length > 0,
         _ => true,
     };
 
     /// <summary>
-    /// Null-safe equality: <c>null == null</c> is true, <c>x == null</c> is false; two numbers compare by
-    /// value across <c>int</c>/<c>long</c>/<c>double</c> (<c>1 == 1.0</c> is true); otherwise <c>Equals</c>
-    /// (so incompatible types are simply not equal).
+    /// Null-safe equality: <c>null == null</c> is true, <c>x == null</c> is false; numeric primitive
+    /// values compare using lossless integral promotion where possible (<c>1 == 1.0</c> is true);
+    /// otherwise <c>Equals</c> is used, so incompatible types are simply not equal.
     /// </summary>
     public static bool AreEqual(object? left, object? right)
     {
         if (left is null) return right is null;
         if (right is null) return false;
-        if (TryToDouble(left, out var dl) && TryToDouble(right, out var dr)) return dl == dr;
+        if (NumericOperations.TryAreEqual(left, right, out var equal)) return equal;
         return left.Equals(right);
     }
 
     /// <summary>
     /// Null-safe ordering, returning <c>null</c> when the values are not orderable — either operand null,
     /// or incompatible types — so every ordering operator yields <c>false</c> for it ("null is not
-    /// orderable"). Two numbers compare across numeric types; same-type <see cref="IComparable"/> values
-    /// compare via <c>CompareTo</c>.
+    /// orderable"). Numeric primitive values compare across compatible numeric types, strings use
+    /// ordinal ordering, and other same-type <see cref="IComparable"/> values compare via
+    /// <c>CompareTo</c>.
     /// </summary>
     public static int? Compare(object? left, object? right)
     {
         if (left is null || right is null) return null;
-        if (TryToDouble(left, out var dl) && TryToDouble(right, out var dr)) return dl.CompareTo(dr);
+        if (NumericOperations.TryCompare(left, right, out var comparison)) return comparison;
+        if (left is string leftString && right is string rightString)
+            return StringComparer.Ordinal.Compare(leftString, rightString);
         if (left.GetType() == right.GetType() && left is IComparable c) return c.CompareTo(right);
         return null;
     }
@@ -55,7 +59,7 @@ public static class ValueCoercion
     /// <summary>
     /// Coerce a value to <paramref name="target"/>: pass-through if already assignable; <c>bool</c> by
     /// parsing 'true'/'false' (NOT truthiness — that is <see cref="IsTruthy"/>, a predicate concern);
-    /// <c>string</c> via <c>ToString</c>; enums from name or value; otherwise
+    /// <c>string</c> via invariant formatting; enums from name or value; otherwise
     /// <see cref="System.Convert.ChangeType(object, Type, IFormatProvider)"/>. <c>null</c> maps to null for
     /// reference/Nullable targets, but a non-nullable value type cannot take null. Non-generic so reflection
     /// (command parameter binding, metadata binding) can use it with a runtime <see cref="Type"/>.
@@ -85,7 +89,7 @@ public static class ValueCoercion
                             $"Cannot convert '{boolText}' to bool (expected 'true' or 'false').");
                 return System.Convert.ChangeType(value, typeof(bool), CultureInfo.InvariantCulture);
             }
-            if (underlying == typeof(string)) return value.ToString() ?? string.Empty;
+            if (underlying == typeof(string)) return ToInvariantString(value);
             if (underlying.IsEnum)
                 return value is string name
                     ? Enum.Parse(underlying, name, ignoreCase: true)
@@ -99,16 +103,10 @@ public static class ValueCoercion
         }
     }
 
-    // Numeric widening used by equality/ordering. bool and string are deliberately not numeric.
-    private static bool TryToDouble(object? value, out double result)
+    internal static string ToInvariantString(object? value) => value switch
     {
-        switch (value)
-        {
-            case int i: result = i; return true;
-            case long l: result = l; return true;
-            case double d: result = d; return true;
-            case float f: result = f; return true;
-            default: result = 0; return false;
-        }
-    }
+        null => string.Empty,
+        IFormattable formattable => formattable.ToString(null, CultureInfo.InvariantCulture),
+        _ => value.ToString() ?? string.Empty,
+    };
 }

@@ -13,7 +13,7 @@ internal sealed record InterpolatedStringExpression(IReadOnlyList<IEvaluable> Pa
     {
         var sb = new StringBuilder();
         foreach (var part in Parts)
-            sb.Append(part.Evaluate(context)?.ToString());
+            sb.Append(ValueCoercion.ToInvariantString(part.Evaluate(context)));
         return sb.ToString();
     }
 }
