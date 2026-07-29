@@ -7,6 +7,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0-beta.1] - 2026-07-29
+
+### Added
+
+- Added grouped weekly Dependabot updates for NuGet packages and GitHub Actions.
+
+### Changed
+
+- Updated the GitHub Actions used for checkout, .NET setup, and artifact transfers.
+- Updated the .NET test SDK and xUnit Visual Studio runner.
+- Revalidated the build, package test, GitHub Packages publication, and GitHub Release pipeline.
+
 ## [0.1.0-alpha] - 2026-07-29
 
 ### Added
@@ -23,5 +35,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Prepared the project for publication as a NuGet package.
 
-[Unreleased]: https://github.com/pidamg/expressions-dotnet/compare/v0.1.0-alpha...HEAD
+[Unreleased]: https://github.com/pidamg/expressions-dotnet/compare/v0.1.0-beta.1...HEAD
+[0.1.0-beta.1]: https://github.com/pidamg/expressions-dotnet/compare/v0.1.0-alpha...v0.1.0-beta.1
 [0.1.0-alpha]: https://github.com/pidamg/expressions-dotnet/releases/tag/v0.1.0-alpha
