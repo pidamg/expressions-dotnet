@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Pidamg.Expressions;
 
@@ -11,6 +13,7 @@ namespace Pidamg.Expressions;
 internal sealed record MemberAccessExpression(IEvaluable Target, string Member) : IEvaluable
 {
     private const BindingFlags Flags = BindingFlags.Public | BindingFlags.Instance;
+    private static readonly ConditionalWeakTable<Type, ConcurrentDictionary<string, MemberInfo>> MemberCache = new();
 
     public object? Evaluate(IEvaluationContext context)
     {
@@ -21,11 +24,31 @@ internal sealed record MemberAccessExpression(IEvaluable Target, string Member) 
             return bag.Contains(Member) ? bag[Member] : null;
 
         var type = target.GetType();
-        var prop = type.GetProperty(Member, Flags);
-        if (prop is not null) return prop.GetValue(target);
-        var field = type.GetField(Member, Flags);
-        if (field is not null) return field.GetValue(target);
+        var members = MemberCache.GetValue(type, static _ => new ConcurrentDictionary<string, MemberInfo>());
+        if (!members.TryGetValue(Member, out var member))
+        {
+            member = (MemberInfo?)type.GetProperty(Member, Flags) ?? type.GetField(Member, Flags);
+            if (member is null)
+                throw new EvaluationException($"Member '{Member}' not found on type '{type.Name}'.");
+            members.TryAdd(Member, member);
+        }
 
-        throw new EvaluationException($"Member '{Member}' not found on type '{type.Name}'.");
+        try
+        {
+            return member switch
+            {
+                PropertyInfo property => property.GetValue(target),
+                FieldInfo field => field.GetValue(target),
+                _ => throw new EvaluationException(
+                    $"Member '{Member}' on type '{type.Name}' is not readable."),
+            };
+        }
+        catch (TargetInvocationException exception)
+        {
+            var inner = exception.InnerException ?? exception;
+            throw new EvaluationException(
+                $"Error reading member '{Member}' on '{type.Name}': {inner.Message}",
+                inner);
+        }
     }
 }
