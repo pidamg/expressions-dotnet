@@ -137,6 +137,22 @@ Only evaluate trusted expressions when the context contains privileged objects. 
 input, expose purpose-built immutable data objects and avoid providing service objects, file or
 process handles, mutable collections, or delegates.
 
+## Potential roadmap
+
+The following capabilities are candidates for future releases and are not currently supported:
+
+- `%` modulo operator
+- `in` and `not in` membership operators for collections and dictionaries
+- List and dictionary literals
+- Large integer, decimal, and scientific-notation literals
+- An escape sequence for a literal `${` in interpolated strings
+- Source spans and more precise parser diagnostics
+- A constrained evaluation mode with explicit member and method allowlists
+- Configurable limits for expression depth, argument count, and evaluation complexity
+
+Roadmap additions should preserve deterministic, culture-independent evaluation and avoid adding
+runtime dependencies.
+
 ## Development
 
 ```bash

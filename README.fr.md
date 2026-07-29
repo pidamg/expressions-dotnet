@@ -139,6 +139,23 @@ N'évaluez que des expressions de confiance lorsque le contexte contient des obj
 Pour une entrée non fiable, exposez des objets de données immuables dédiés et ne fournissez pas
 de services, de handles de fichiers ou de processus, de collections modifiables ni de délégués.
 
+## Feuille de route potentielle
+
+Les fonctionnalités suivantes sont envisagées pour de futures versions et ne sont pas prises en
+charge actuellement :
+
+- Opérateur modulo `%`
+- Opérateurs d'appartenance `in` et `not in` pour les collections et dictionnaires
+- Littéraux de listes et de dictionnaires
+- Littéraux pour les grands entiers, les nombres décimaux et la notation scientifique
+- Séquence d'échappement permettant d'insérer `${` littéralement dans une chaîne interpolée
+- Positions précises dans le texte source et diagnostics de parsing améliorés
+- Mode d'évaluation restreint avec listes explicites de membres et méthodes autorisés
+- Limites configurables pour la profondeur, le nombre d'arguments et la complexité d'évaluation
+
+Les évolutions doivent préserver une évaluation déterministe, indépendante de la culture et sans
+ajouter de dépendance d'exécution.
+
 ## Développement
 
 ```bash
