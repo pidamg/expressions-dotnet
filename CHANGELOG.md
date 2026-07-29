@@ -7,6 +7,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-29
+
+### Added
+
+- Added a PowerShell 7.4 smoke test for the packaged .NET 8 assembly to the release pipeline.
+
+### Changed
+
+- Changed the target framework from .NET 10 to .NET 8 and added support for PowerShell 7.4 or
+  later.
+
 ## [0.1.1-beta.2] - 2026-07-29
 
 ### Added
