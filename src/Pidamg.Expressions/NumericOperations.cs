@@ -12,22 +12,30 @@ internal static class NumericOperations
             return false;
         }
 
-        result = kind switch
+        try
         {
-            NumericKind.Int32 => System.Convert.ToInt32(left, CultureInfo.InvariantCulture) ==
-                System.Convert.ToInt32(right, CultureInfo.InvariantCulture),
-            NumericKind.Int64 => System.Convert.ToInt64(left, CultureInfo.InvariantCulture) ==
-                System.Convert.ToInt64(right, CultureInfo.InvariantCulture),
-            NumericKind.UInt64 => System.Convert.ToUInt64(left, CultureInfo.InvariantCulture) ==
-                System.Convert.ToUInt64(right, CultureInfo.InvariantCulture),
-            NumericKind.Single => System.Convert.ToSingle(left, CultureInfo.InvariantCulture) ==
-                System.Convert.ToSingle(right, CultureInfo.InvariantCulture),
-            NumericKind.Double => System.Convert.ToDouble(left, CultureInfo.InvariantCulture) ==
-                System.Convert.ToDouble(right, CultureInfo.InvariantCulture),
-            NumericKind.Decimal => System.Convert.ToDecimal(left, CultureInfo.InvariantCulture) ==
-                System.Convert.ToDecimal(right, CultureInfo.InvariantCulture),
-            _ => false,
-        };
+            result = kind switch
+            {
+                NumericKind.Int32 => System.Convert.ToInt32(left, CultureInfo.InvariantCulture) ==
+                    System.Convert.ToInt32(right, CultureInfo.InvariantCulture),
+                NumericKind.Int64 => System.Convert.ToInt64(left, CultureInfo.InvariantCulture) ==
+                    System.Convert.ToInt64(right, CultureInfo.InvariantCulture),
+                NumericKind.UInt64 => System.Convert.ToUInt64(left, CultureInfo.InvariantCulture) ==
+                    System.Convert.ToUInt64(right, CultureInfo.InvariantCulture),
+                NumericKind.Single => System.Convert.ToSingle(left, CultureInfo.InvariantCulture) ==
+                    System.Convert.ToSingle(right, CultureInfo.InvariantCulture),
+                NumericKind.Double => System.Convert.ToDouble(left, CultureInfo.InvariantCulture) ==
+                    System.Convert.ToDouble(right, CultureInfo.InvariantCulture),
+                NumericKind.Decimal => System.Convert.ToDecimal(left, CultureInfo.InvariantCulture) ==
+                    System.Convert.ToDecimal(right, CultureInfo.InvariantCulture),
+                _ => false,
+            };
+        }
+        catch (ArithmeticException)
+        {
+            result = false;
+        }
+
         return true;
     }
 
@@ -39,22 +47,31 @@ internal static class NumericOperations
             return false;
         }
 
-        result = kind switch
+        try
         {
-            NumericKind.Int32 => System.Convert.ToInt32(left, CultureInfo.InvariantCulture)
-                .CompareTo(System.Convert.ToInt32(right, CultureInfo.InvariantCulture)),
-            NumericKind.Int64 => System.Convert.ToInt64(left, CultureInfo.InvariantCulture)
-                .CompareTo(System.Convert.ToInt64(right, CultureInfo.InvariantCulture)),
-            NumericKind.UInt64 => System.Convert.ToUInt64(left, CultureInfo.InvariantCulture)
-                .CompareTo(System.Convert.ToUInt64(right, CultureInfo.InvariantCulture)),
-            NumericKind.Single => System.Convert.ToSingle(left, CultureInfo.InvariantCulture)
-                .CompareTo(System.Convert.ToSingle(right, CultureInfo.InvariantCulture)),
-            NumericKind.Double => System.Convert.ToDouble(left, CultureInfo.InvariantCulture)
-                .CompareTo(System.Convert.ToDouble(right, CultureInfo.InvariantCulture)),
-            NumericKind.Decimal => System.Convert.ToDecimal(left, CultureInfo.InvariantCulture)
-                .CompareTo(System.Convert.ToDecimal(right, CultureInfo.InvariantCulture)),
-            _ => 0,
-        };
+            result = kind switch
+            {
+                NumericKind.Int32 => System.Convert.ToInt32(left, CultureInfo.InvariantCulture)
+                    .CompareTo(System.Convert.ToInt32(right, CultureInfo.InvariantCulture)),
+                NumericKind.Int64 => System.Convert.ToInt64(left, CultureInfo.InvariantCulture)
+                    .CompareTo(System.Convert.ToInt64(right, CultureInfo.InvariantCulture)),
+                NumericKind.UInt64 => System.Convert.ToUInt64(left, CultureInfo.InvariantCulture)
+                    .CompareTo(System.Convert.ToUInt64(right, CultureInfo.InvariantCulture)),
+                NumericKind.Single => System.Convert.ToSingle(left, CultureInfo.InvariantCulture)
+                    .CompareTo(System.Convert.ToSingle(right, CultureInfo.InvariantCulture)),
+                NumericKind.Double => System.Convert.ToDouble(left, CultureInfo.InvariantCulture)
+                    .CompareTo(System.Convert.ToDouble(right, CultureInfo.InvariantCulture)),
+                NumericKind.Decimal => System.Convert.ToDecimal(left, CultureInfo.InvariantCulture)
+                    .CompareTo(System.Convert.ToDecimal(right, CultureInfo.InvariantCulture)),
+                _ => 0,
+            };
+        }
+        catch (ArithmeticException)
+        {
+            result = System.Convert.ToDouble(left, CultureInfo.InvariantCulture)
+                .CompareTo(System.Convert.ToDouble(right, CultureInfo.InvariantCulture));
+        }
+
         return true;
     }
 

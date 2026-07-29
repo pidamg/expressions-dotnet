@@ -48,6 +48,19 @@ public sealed class NumericTests
     public void Decimal_zero_is_falsy()
         => Assert.False(ValueCoercion.IsTruthy(0m));
 
+    [Theory]
+    [MemberData(nameof(IntegralZeros))]
+    public void Every_integral_zero_is_falsy(object value)
+        => Assert.False(ValueCoercion.IsTruthy(value));
+
+    [Fact]
+    public void Decimal_and_out_of_range_float_compare_without_conversion_errors()
+    {
+        Assert.Equal(false, Eval("floating == precise", ("floating", 1e30f), ("precise", 1m)));
+        Assert.Equal(false, Eval("floating < precise", ("floating", 1e30f), ("precise", 1m)));
+        Assert.Equal(true, Eval("floating > precise", ("floating", 1e30f), ("precise", 1m)));
+    }
+
     [Fact]
     public void Integer_overflow_is_an_evaluation_error()
     {
@@ -108,4 +121,16 @@ public sealed class NumericTests
             context.Set(name, value);
         return context;
     }
+
+    public static TheoryData<object> IntegralZeros => new()
+    {
+        (sbyte)0,
+        (byte)0,
+        (short)0,
+        (ushort)0,
+        0,
+        0u,
+        0L,
+        0UL,
+    };
 }
