@@ -1,1 +1,35 @@
 #nullable enable
+Pidamg.Expressions.EvaluableExtensions
+Pidamg.Expressions.EvaluationContext
+Pidamg.Expressions.EvaluationContext.Add(string! name, object? value) -> void
+Pidamg.Expressions.EvaluationContext.CreateChild(System.Collections.Generic.IReadOnlyDictionary<string!, object?>? values = null) -> Pidamg.Expressions.IEvaluationContext!
+Pidamg.Expressions.EvaluationContext.EvaluationContext(Pidamg.Expressions.IEvaluationContext? parent = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? values = null) -> void
+Pidamg.Expressions.EvaluationContext.Set(string! name, object? value) -> void
+Pidamg.Expressions.EvaluationContext.TryGetValue(string! name, out object? value) -> bool
+Pidamg.Expressions.EvaluationException
+Pidamg.Expressions.EvaluationException.EvaluationException(string! message) -> void
+Pidamg.Expressions.EvaluationException.EvaluationException(string! message, System.Exception! innerException) -> void
+Pidamg.Expressions.ExpressionParser
+Pidamg.Expressions.IEvaluable
+Pidamg.Expressions.IEvaluable.Evaluate(Pidamg.Expressions.IEvaluationContext! context) -> object?
+Pidamg.Expressions.IEvaluable.Evaluate<T>(Pidamg.Expressions.IEvaluationContext! context) -> T?
+Pidamg.Expressions.IEvaluationContext
+Pidamg.Expressions.IEvaluationContext.Add(string! name, object? value) -> void
+Pidamg.Expressions.IEvaluationContext.CreateChild(System.Collections.Generic.IReadOnlyDictionary<string!, object?>? values = null) -> Pidamg.Expressions.IEvaluationContext!
+Pidamg.Expressions.IEvaluationContext.Set(string! name, object? value) -> void
+Pidamg.Expressions.IEvaluationContext.TryGetValue(string! name, out object? value) -> bool
+Pidamg.Expressions.IExpression<T>
+Pidamg.Expressions.IExpression<T>.Evaluate(Pidamg.Expressions.IEvaluationContext! context) -> T?
+Pidamg.Expressions.Interpolator
+Pidamg.Expressions.ValueCoercion
+static Pidamg.Expressions.EvaluableExtensions.AsTyped<T>(this Pidamg.Expressions.IEvaluable! evaluable) -> Pidamg.Expressions.IExpression<T>!
+static Pidamg.Expressions.ExpressionParser.Parse(string! input) -> Pidamg.Expressions.IEvaluable!
+static Pidamg.Expressions.ExpressionParser.Parse<T>(string! input) -> Pidamg.Expressions.IExpression<T>!
+static Pidamg.Expressions.Interpolator.Evaluate(string! text, Pidamg.Expressions.IEvaluationContext! context) -> object?
+static Pidamg.Expressions.Interpolator.Parse(string! text) -> Pidamg.Expressions.IEvaluable!
+static Pidamg.Expressions.Interpolator.Parse<T>(string! text) -> Pidamg.Expressions.IExpression<T>!
+static Pidamg.Expressions.ValueCoercion.AreEqual(object? left, object? right) -> bool
+static Pidamg.Expressions.ValueCoercion.Compare(object? left, object? right) -> int?
+static Pidamg.Expressions.ValueCoercion.Convert(object? value, System.Type! target) -> object?
+static Pidamg.Expressions.ValueCoercion.Convert<T>(object? value) -> T?
+static Pidamg.Expressions.ValueCoercion.IsTruthy(object? value) -> bool

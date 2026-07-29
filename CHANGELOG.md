@@ -7,7 +7,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## [0.1.0-alpha.1] - 2026-07-29
+## [0.1.0-alpha] - 2026-07-29
 
 ### Added
 
@@ -16,11 +16,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   and string interpolation.
 - Added English and French documentation, XML IntelliSense documentation, and public API
   compatibility validation.
-- Added automated package validation and publication to GitHub Packages and NuGet.org.
+- Added automated package validation, GitHub Packages publication, and stable-release publication
+  to NuGet.org.
 
 ### Changed
 
 - Prepared the project for publication as a NuGet package.
 
-[Unreleased]: https://github.com/pidamg/expressions-dotnet/compare/v0.1.0-alpha.1...HEAD
-[0.1.0-alpha.1]: https://github.com/pidamg/expressions-dotnet/releases/tag/v0.1.0-alpha.1
+[Unreleased]: https://github.com/pidamg/expressions-dotnet/compare/v0.1.0-alpha...HEAD
+[0.1.0-alpha]: https://github.com/pidamg/expressions-dotnet/releases/tag/v0.1.0-alpha
