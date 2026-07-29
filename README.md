@@ -6,8 +6,9 @@ An embeddable, host-neutral .NET expression engine. Parse an expression once, th
 against any number of scoped contexts.
 
 > [!NOTE]
-> This project targets .NET 10. While the package remains below `1.0.0`, its public API may evolve
-> between minor versions in accordance with Semantic Versioning.
+> This project targets .NET 8 and supports PowerShell 7.4 or later. While the package remains
+> below `1.0.0`, its public API may evolve between minor versions in accordance with Semantic
+> Versioning.
 
 ## Features
 

@@ -6,8 +6,9 @@ Moteur d'expressions .NET intégrable et indépendant de l'application hôte. Un
 être analysée une fois, puis évaluée dans autant de contextes que nécessaire.
 
 > [!NOTE]
-> Ce projet cible .NET 10. Tant que le package reste inférieur à `1.0.0`, son API publique peut
-> évoluer entre les versions mineures conformément au versionnement sémantique.
+> Ce projet cible .NET 8 et prend en charge PowerShell 7.4 ou version ultérieure. Tant que le
+> package reste inférieur à `1.0.0`, son API publique peut évoluer entre les versions mineures
+> conformément au versionnement sémantique.
 
 ## Fonctionnalités
 
