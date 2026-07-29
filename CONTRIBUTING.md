@@ -72,14 +72,14 @@ Pour tester un package local avec la même suite :
 
 ```bash
 dotnet restore tests/Pidamg.Expressions.Tests \
-  -p:TestPackageVersion=0.1.0-beta.1 \
+  -p:TestPackageVersion=0.1.0 \
   --source ./nupkgs \
   --source https://api.nuget.org/v3/index.json
 
 dotnet test tests/Pidamg.Expressions.Tests \
   --configuration Release \
   --no-restore \
-  -p:TestPackageVersion=0.1.0-beta.1
+  -p:TestPackageVersion=0.1.0
 ```
 
 ## Création du package

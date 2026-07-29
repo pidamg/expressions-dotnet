@@ -5,9 +5,9 @@
 An embeddable, host-neutral .NET expression engine. Parse an expression once, then evaluate it
 against any number of scoped contexts.
 
-> [!IMPORTANT]
-> This project is currently a preview and targets .NET 10. The public API may still change before
-> the stable `1.0.0` release.
+> [!NOTE]
+> This project targets .NET 10. While the package remains below `1.0.0`, its public API may evolve
+> between minor versions in accordance with Semantic Versioning.
 
 ## Features
 
@@ -25,19 +25,22 @@ against any number of scoped contexts.
 
 ## Installation
 
-Preview packages are published to
-[GitHub Packages](https://github.com/pidamg/expressions-dotnet/packages) and attached to
-[GitHub Releases](https://github.com/pidamg/expressions-dotnet/releases).
+Stable packages are published on
+[NuGet.org](https://www.nuget.org/packages/Pidamg.Expressions):
 
-GitHub Packages requires an authenticated NuGet source, including for public packages. After
+```bash
+dotnet add package Pidamg.Expressions
+```
+
+Prerelease packages are also available from
+[GitHub Packages](https://github.com/pidamg/expressions-dotnet/packages) and attached to
+[GitHub Releases](https://github.com/pidamg/expressions-dotnet/releases). After
 [configuring GitHub Packages authentication](https://docs.github.com/en/packages/working-with-the-nuget-registry),
-install the preview package with:
+install a prerelease with:
 
 ```bash
 dotnet add package Pidamg.Expressions --prerelease
 ```
-
-Stable releases will also be published to NuGet.org.
 
 ## Quick start
 

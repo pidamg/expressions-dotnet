@@ -5,9 +5,9 @@
 Moteur d'expressions .NET intégrable et indépendant de l'application hôte. Une expression peut
 être analysée une fois, puis évaluée dans autant de contextes que nécessaire.
 
-> [!IMPORTANT]
-> Le projet est actuellement en préversion et cible .NET 10. L'API publique peut encore évoluer
-> avant la version stable `1.0.0`.
+> [!NOTE]
+> Ce projet cible .NET 10. Tant que le package reste inférieur à `1.0.0`, son API publique peut
+> évoluer entre les versions mineures conformément au versionnement sémantique.
 
 ## Fonctionnalités
 
@@ -25,19 +25,22 @@ Moteur d'expressions .NET intégrable et indépendant de l'application hôte. Un
 
 ## Installation
 
-Les préversions sont publiées dans
-[GitHub Packages](https://github.com/pidamg/expressions-dotnet/packages) et jointes aux
-[GitHub Releases](https://github.com/pidamg/expressions-dotnet/releases).
+Les versions stables sont publiées sur
+[NuGet.org](https://www.nuget.org/packages/Pidamg.Expressions) :
 
-GitHub Packages nécessite une source NuGet authentifiée, y compris pour les packages publics.
-Après avoir [configuré l'authentification à GitHub Packages](https://docs.github.com/fr/packages/working-with-the-nuget-registry),
-installez la préversion avec :
+```bash
+dotnet add package Pidamg.Expressions
+```
+
+Les préversions sont également publiées dans
+[GitHub Packages](https://github.com/pidamg/expressions-dotnet/packages) et jointes aux
+[GitHub Releases](https://github.com/pidamg/expressions-dotnet/releases). Après avoir
+[configuré l'authentification à GitHub Packages](https://docs.github.com/fr/packages/working-with-the-nuget-registry),
+installez une préversion avec :
 
 ```bash
 dotnet add package Pidamg.Expressions --prerelease
 ```
-
-Les versions stables seront également publiées sur NuGet.org.
 
 ## Démarrage rapide
 
