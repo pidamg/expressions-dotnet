@@ -123,7 +123,19 @@ var port = Interpolator.Parse<int>("${port}").Evaluate(context);
 ## Value conversion
 
 `ValueCoercion` exposes the same conversion and comparison rules used by the evaluator. Numeric
-types are promoted for comparisons, ordering with `null` is false, and equality is null-safe.
+types are promoted for comparisons, integral comparisons preserve their precision, ordering with
+`null` is false, and equality is null-safe. Integral arithmetic is checked for overflow. Numeric
+values converted to strings use the invariant culture.
+
+## Trust boundary
+
+Pidamg.Expressions is an expression engine, not a security sandbox. An expression can read public
+properties and fields and invoke public instance methods or delegates exposed through its
+evaluation context. Those operations may have side effects.
+
+Only evaluate trusted expressions when the context contains privileged objects. For untrusted
+input, expose purpose-built immutable data objects and avoid providing service objects, file or
+process handles, mutable collections, or delegates.
 
 ## Development
 

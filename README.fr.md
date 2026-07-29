@@ -124,8 +124,20 @@ var port = Interpolator.Parse<int>("${port}").Evaluate(context);
 ## Conversion des valeurs
 
 `ValueCoercion` expose les mêmes règles de conversion et de comparaison que l'évaluateur. Les
-types numériques sont promus lors des comparaisons, l'ordonnancement avec `null` est faux et
-l'égalité est null-safe.
+types numériques sont promus lors des comparaisons, les comparaisons d'entiers conservent leur
+précision, l'ordonnancement avec `null` est faux et l'égalité est null-safe. Les dépassements
+arithmétiques entiers sont contrôlés. La conversion des nombres en chaînes utilise la culture
+invariante.
+
+## Frontière de confiance
+
+Pidamg.Expressions est un moteur d'expressions, pas une sandbox de sécurité. Une expression peut
+lire les propriétés et champs publics, appeler les méthodes d'instance publiques et invoquer les
+délégués exposés dans son contexte d'évaluation. Ces opérations peuvent avoir des effets de bord.
+
+N'évaluez que des expressions de confiance lorsque le contexte contient des objets privilégiés.
+Pour une entrée non fiable, exposez des objets de données immuables dédiés et ne fournissez pas
+de services, de handles de fichiers ou de processus, de collections modifiables ni de délégués.
 
 ## Développement
 
