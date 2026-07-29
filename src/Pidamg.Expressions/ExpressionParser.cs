@@ -28,6 +28,7 @@ public static class ExpressionParser
     /// <summary>Parse <paramref name="input"/> into an untyped AST.</summary>
     public static IEvaluable Parse(string input)
     {
+        ArgumentNullException.ThrowIfNull(input);
         var tokens = new Lexer(input).Tokenize();
         var parser = new Parser(tokens);
         var expr = parser.ParseExpression(0);
@@ -182,8 +183,17 @@ public static class ExpressionParser
             while (Current.Kind != TokenKind.RightParen && Current.Kind != TokenKind.Eof)
             {
                 args.Add(ParseExpression(0));
+
                 if (Current.Kind == TokenKind.Comma)
+                {
                     Consume();
+                    continue;
+                }
+
+                if (Current.Kind != TokenKind.RightParen)
+                    throw new EvaluationException(
+                        $"Expected comma or {TokenKind.RightParen} but got '{Current.Text}' " +
+                        $"at position {Current.Position}.");
             }
             Expect(TokenKind.RightParen);
             return new CallExpression(callee, args);

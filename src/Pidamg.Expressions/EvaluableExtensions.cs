@@ -9,7 +9,11 @@ namespace Pidamg.Expressions;
 public static class EvaluableExtensions
 {
     /// <summary>View this evaluable as a typed expression: evaluate, then coerce to <typeparamref name="T"/>.</summary>
-    public static IExpression<T> AsTyped<T>(this IEvaluable evaluable) => new Typed<T>(evaluable);
+    public static IExpression<T> AsTyped<T>(this IEvaluable evaluable)
+    {
+        ArgumentNullException.ThrowIfNull(evaluable);
+        return new Typed<T>(evaluable);
+    }
 
     // A thin behavioural adapter, not a value — no value equality, hence a class, not a record.
     private sealed class Typed<T>(IEvaluable inner) : IExpression<T>
